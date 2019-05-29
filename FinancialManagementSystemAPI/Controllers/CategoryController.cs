@@ -11,27 +11,27 @@ namespace FinancialManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProfileController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         [HttpGet]
-        public async Task<IEnumerable<m.Profile>> Get()
+        public async Task<IEnumerable<m.Category>> Get()
         {
-            return await d.Profile.Get();
+            return await d.Category.Get();
         }
 
         [HttpGet("{id}")]
-        public async Task<m.Profile> Get(Guid id)
+        public async Task<m.Category> Get(Guid id)
         {
-            return await d.Profile.Get(id);
+            return await d.Category.Get(id);
         }
 
         [HttpPost]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] m.Profile data)
+        public async Task<IActionResult> Post([FromBody] m.Category data)
         {
             try
             {
-                await d.Profile.Insert(data);
+                await d.Category.Insert(data);
 
                 return Ok(data);
             }
@@ -42,14 +42,14 @@ namespace FinancialManagementSystemAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] m.Profile data)
+        public async Task<IActionResult> Put(Guid id, [FromBody] m.Category data)
         {
             try
             {
-                if (id != data.ProfileId)
+                if (id != data.CategoryId)
                     return BadRequest();
 
-                await d.Profile.Update(data);
+                await d.Category.Update(data);
 
                 return Ok(data);
             }
@@ -64,7 +64,7 @@ namespace FinancialManagementSystemAPI.Controllers
         {
             try
             {
-                await d.Profile.Delete(id);
+                await d.Category.Delete(id);
 
                 return Ok();
             }
@@ -73,5 +73,6 @@ namespace FinancialManagementSystemAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

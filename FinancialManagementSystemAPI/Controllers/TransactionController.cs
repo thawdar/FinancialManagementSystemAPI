@@ -11,27 +11,27 @@ namespace FinancialManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProfileController : ControllerBase
+    public class TransactionController : ControllerBase
     {
         [HttpGet]
-        public async Task<IEnumerable<m.Profile>> Get()
+        public async Task<IEnumerable<m.Transaction>> Get()
         {
-            return await d.Profile.Get();
+            return await d.Transaction.Get();
         }
 
         [HttpGet("{id}")]
-        public async Task<m.Profile> Get(Guid id)
+        public async Task<m.Transaction> Get(Guid id)
         {
-            return await d.Profile.Get(id);
+            return await d.Transaction.Get(id);
         }
 
         [HttpPost]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] m.Profile data)
+        public async Task<IActionResult> Post([FromBody] m.Transaction data)
         {
             try
             {
-                await d.Profile.Insert(data);
+                await d.Transaction.Insert(data);
 
                 return Ok(data);
             }
@@ -42,14 +42,14 @@ namespace FinancialManagementSystemAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] m.Profile data)
+        public async Task<IActionResult> Put(Guid id, [FromBody] m.Transaction data)
         {
             try
             {
-                if (id != data.ProfileId)
+                if (id != data.TransactionId)
                     return BadRequest();
 
-                await d.Profile.Update(data);
+                await d.Transaction.Update(data);
 
                 return Ok(data);
             }
@@ -64,7 +64,7 @@ namespace FinancialManagementSystemAPI.Controllers
         {
             try
             {
-                await d.Profile.Delete(id);
+                await d.Transaction.Delete(id);
 
                 return Ok();
             }
