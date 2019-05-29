@@ -7,6 +7,7 @@ namespace Model
     {
         [PrimaryKey]
         public Guid SubscriptionId { get; set; }
+        public DateTime SubscriptionDateDate { get; set; }
         public DateTime ValidUntil { get; set; }
         public decimal Amount { get; set; }
         public Guid ProfileId { get; set; }
