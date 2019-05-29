@@ -1,0 +1,14 @@
+<Playlist Version="1.0">
+
+    <Add Test="UnitTesting.ProfileTest.Insert" />
+    <Add Test="UnitTesting.ProfileTest.Update" />
+    <Add Test="UnitTesting.ProfileTest.Get" />
+
+    <Add Test="UnitTesting.AccountTest.Insert" />
+    <Add Test="UnitTesting.AccountTest.Update" />
+    <Add Test="UnitTesting.AccountTest.Get" />
+    <Add Test="UnitTesting.AccountTest.Delete" />
+    
+    <Add Test="UnitTesting.ProfileTest.Delete" />
+
+</Playlist>
