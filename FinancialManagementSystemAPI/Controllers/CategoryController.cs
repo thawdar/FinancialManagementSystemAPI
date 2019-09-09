@@ -19,6 +19,27 @@ namespace FinancialManagementSystemAPI.Controllers
             return await d.Category.Get();
         }
 
+        [HttpGet("ProfileId/{ProfileId}")]
+        public async Task<IEnumerable<m.Category>> GetByProfileId(Guid ProfileId)
+        {
+            IEnumerable<m.Category> categories = await d.Category.Get();
+            return categories.Where(c => c.ProfileId == ProfileId);
+        }
+
+        [HttpGet("Expense/{ProfileId}")]
+        public async Task<IEnumerable<m.Category>> GetExpenseCategory(Guid ProfileId)
+        {
+            IEnumerable<m.Category> categories =  await d.Category.Get();
+            return categories.Where(c => c.CategoryType == "Expense" && c.ProfileId == ProfileId);
+        }
+
+        [HttpGet("Income/{ProfileId}")]
+        public async Task<IEnumerable<m.Category>> GetIncomeCategory(Guid ProfileId)
+        {
+            IEnumerable<m.Category> categories = await d.Category.Get();
+            return categories.Where(c => c.CategoryType == "Income" && c.ProfileId == ProfileId);
+        }
+
         [HttpGet("{id}")]
         public async Task<m.Category> Get(Guid id)
         {

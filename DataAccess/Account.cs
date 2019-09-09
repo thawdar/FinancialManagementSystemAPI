@@ -50,5 +50,17 @@ namespace DataAccess
                     new { AccountId = id });
             }
         }
+
+        public async static Task<decimal> GetBalance(Guid id)
+        {
+            decimal balance = 0;
+            using (var db = DbAccess.ConnectionFactory())
+            {
+                await db.QueryAsync("SELECT dbo.GetAccountBalance(@AccountId)",
+                    new { AccountId = id });
+            }
+
+            return balance;
+        }
     }
 }

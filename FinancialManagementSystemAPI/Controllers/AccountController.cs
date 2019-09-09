@@ -19,6 +19,19 @@ namespace FinancialManagementSystemAPI.Controllers
             return await d.Account.Get();
         }
 
+        [HttpGet("ProfileId/{ProfileId}")]
+        public async Task<IEnumerable<m.Account>> GetByProfileId(Guid ProfileId)
+        {
+            IEnumerable<m.Account> accounts = await d.Account.Get();
+            return accounts.Where(a => a.ProfileId == ProfileId);
+        }
+
+        [HttpGet("Balance/{id}")]
+        public async Task<decimal> GetBalance(Guid id)
+        {
+            return await d.Account.GetBalance(id);            
+        }
+
         [HttpGet("{id}")]
         public async Task<m.Account> Get(Guid id)
         {

@@ -9,7 +9,6 @@ namespace Model
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string CategoryType { get; set; }
-        public decimal Budget { get; set; }
         public Guid ProfileId { get; set; }
     }
 }
