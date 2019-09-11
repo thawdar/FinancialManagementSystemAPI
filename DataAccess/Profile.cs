@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccess.Shared;
+using System.Linq;
 using m = Model;
 
 namespace DataAccess
@@ -23,6 +24,18 @@ namespace DataAccess
             {
                 return await db.QueryFirstOrDefaultAsync<m.Profile>(DbAccess.Select<m.Profile>(),
                      new { ProfileId = id });
+            }
+        }
+
+        public async static Task<m.Profile> Login(m.Profile p)
+        {
+            using (var db = DbAccess.ConnectionFactory())
+            {
+                string query = DbAccess.SelectAll<m.Profile>() + " WHERE [LoginId]=@LoginId AND [Pwd]=@Pwd";
+                m.Profile profile =  await db.QueryFirstOrDefaultAsync<m.Profile>(query,
+                     new { LoginId= p.LoginId, Pwd = p.Pwd});
+
+                return profile;
             }
         }
 

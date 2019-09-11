@@ -11,23 +11,34 @@ namespace FinancialManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransactionController : ControllerBase
+    public class DailyTransactionController : ControllerBase
     {
         [HttpGet]
-        public async Task<IEnumerable<m.Transaction>> Get()
+        public async Task<IEnumerable<m.DailyTransaction>> Get()
         {
             return await d.Transaction.Get();
         }
 
+        [HttpGet("ProfileId/{ProfileId}")]
+        public async Task<IEnumerable<m.DailyTransaction>> GetByProfileId(Guid ProfileId)
+        {
+            return await d.Transaction.GetByProfileId(ProfileId);
+        }
+
+        [HttpPost("ProfileIdAndPeriod")]
+        public async Task<IEnumerable<m.DailyTransaction>> GetByProfileIdAndPeriod([FromBody] m.TransactionFilter filter)
+        {
+            return await d.Transaction.GetByProfileId(filter.ProfileId, filter.StartDate, filter.EndDate);
+        }
+
         [HttpGet("{id}")]
-        public async Task<m.Transaction> Get(Guid id)
+        public async Task<m.DailyTransaction> Get(Guid id)
         {
             return await d.Transaction.Get(id);
         }
 
         [HttpPost]
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] m.Transaction data)
+        public async Task<IActionResult> Post([FromBody] m.DailyTransaction data)
         {
             try
             {
@@ -42,7 +53,7 @@ namespace FinancialManagementSystemAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] m.Transaction data)
+        public async Task<IActionResult> Put(Guid id, [FromBody] m.DailyTransaction data)
         {
             try
             {

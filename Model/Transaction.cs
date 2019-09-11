@@ -3,7 +3,7 @@ using Model.Attributes;
 
 namespace Model
 {
-    public class Transaction
+    public class DailyTransaction
     {
         [PrimaryKey]
         public Guid TransactionId { get; set; }
@@ -16,4 +16,14 @@ namespace Model
         public Category Category { get; set; }
         public Account Account { get; set; }
     }
+
+    public class TransactionFilter
+    {
+        public Guid ProfileId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
+    }
 }
+
+

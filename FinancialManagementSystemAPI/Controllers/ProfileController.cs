@@ -25,12 +25,21 @@ namespace FinancialManagementSystemAPI.Controllers
             return await d.Profile.Get(id);
         }
 
-        [HttpPost]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] m.Profile profile)
+        {            
+            return Ok(await d.Profile.Login(profile));
+        }
+        
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] m.Profile data)
         {
             try
             {
+                IEnumerable<m.Profile> profiles = await Get();
+                m.Profile exists = profiles.FirstOrDefault(p => p.LoginId == p.LoginId);
+                if (exists != null) return BadRequest("Login ID is duplicated");
+
                 await d.Profile.Insert(data);
 
                 return Ok(data);
