@@ -37,7 +37,7 @@ namespace FinancialManagementSystemAPI.Controllers
             try
             {
                 IEnumerable<m.Profile> profiles = await Get();
-                m.Profile exists = profiles.FirstOrDefault(p => p.LoginId == p.LoginId);
+                m.Profile exists = profiles.FirstOrDefault(p => p.LoginId == data.LoginId);
                 if (exists != null) return BadRequest("Login ID is duplicated");
 
                 await d.Profile.Insert(data);

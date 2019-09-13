@@ -6,7 +6,7 @@ namespace Model
     public class Profile
     {
         [PrimaryKey]
-        public Guid ProfileId { get; set; }
+        public Guid? ProfileId { get; set; }
         public string DisplayName { get; set; }
         public string LoginId { get; set; }
         public string Pwd { get; set; }

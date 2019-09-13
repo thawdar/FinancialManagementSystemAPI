@@ -11,4 +11,15 @@ namespace Model
         public string CategoryType { get; set; }
         public Guid ProfileId { get; set; }
     }
+
+    public class CategoryTotal : Category
+    {
+        public decimal Total { get; set; }
+    }
+
+    public class CategoryTypeTotal
+    {
+        public string CategoryType { get; set; }
+        public decimal Total { get; set; }
+    }
 }

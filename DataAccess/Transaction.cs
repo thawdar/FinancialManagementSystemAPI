@@ -69,6 +69,44 @@ namespace DataAccess
             }
         }
 
+        public async static Task<IEnumerable<m.CategoryTotal>> GetTotalCategoryByProfileId(Guid ProfileId, DateTime _start, DateTime _end)
+        {
+            using (var db = DbAccess.ConnectionFactory())
+            {
+                IEnumerable<m.CategoryTotal> categoryTotals = await db.QueryAsync<m.CategoryTotal>(@"
+    SELECT c.CategoryId, c.CategoryName, c.CategoryType, c.ProfileId, SUM(dt.Amount) AS Total
+    FROM dbo.DailyTransaction AS dt INNER JOIN
+     dbo.Category AS c ON dt.CategoryId = c.CategoryId
+    WHERE (dt.AccountId IN
+    (SELECT AccountId
+    FROM dbo.Account
+    WHERE (ProfileId = @ProfileId))) AND (dt.TransactionDate BETWEEN @s AND @e)
+    GROUP BY c.CategoryId, c.CategoryName, c.CategoryType, c.ProfileId",
+                    new { s = _start, e = _end, ProfileId = ProfileId });
+
+                return categoryTotals;
+            }
+        }
+
+        public async static Task<IEnumerable<m.CategoryTypeTotal>> GetTotalCategoryTypeByProfileId(Guid ProfileId, DateTime _start, DateTime _end)
+        {
+            using (var db = DbAccess.ConnectionFactory())
+            {
+                IEnumerable<m.CategoryTypeTotal> categoryTotals = await db.QueryAsync<m.CategoryTypeTotal>(@"
+    SELECT SUM(dt.Amount) AS Total, dbo.Category.CategoryType
+    FROM dbo.DailyTransaction AS dt INNER JOIN
+     dbo.Category ON dt.CategoryId = dbo.Category.CategoryId
+    WHERE (dt.AccountId IN
+     (SELECT        AccountId
+     FROM            dbo.Account
+     WHERE        (ProfileId = @ProfileId))) AND (dt.TransactionDate BETWEEN @s AND @e)
+    GROUP BY dbo.Category.CategoryType",
+                    new { s = _start, e = _end, ProfileId = ProfileId });
+
+                return categoryTotals;
+            }
+        }
+
         public async static Task<m.DailyTransaction> Get(Guid id)
         {
             using (var db = DbAccess.ConnectionFactory())
