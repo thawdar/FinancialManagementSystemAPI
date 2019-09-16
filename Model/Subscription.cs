@@ -18,7 +18,7 @@ namespace Model
         private DateTime _ValidUntil;
         public DateTime ValidUntil
         {
-            get => _SubscriptionDateDate;
+            get => _ValidUntil;
             set => _ValidUntil = Shared.GetLocalDateTime(value);
         }
         public decimal Amount { get; set; }

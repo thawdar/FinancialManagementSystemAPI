@@ -7,7 +7,14 @@ namespace Model
     {
         [PrimaryKey]
         public Guid TransactionId { get; set; }
-        public DateTime TransactionDate { get; set; }
+
+        private DateTime _TransactionDate;
+        public DateTime TransactionDate
+        {
+            get => _TransactionDate;
+            set => _TransactionDate = Shared.GetLocalDateTime(value);
+        }
+
         public string Particular { get; set; }
         public Guid CategoryId { get; set; }
         public Guid AccountId { get; set; }
