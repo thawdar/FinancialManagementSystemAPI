@@ -17,13 +17,42 @@ namespace Model
         public Account Account { get; set; }
     }
 
-    public class TransactionFilter
+    public class Period
+    {
+        private DateTime _start, _end;
+        
+        public DateTime StartDate
+        {
+            get
+            {
+                return _start;
+            }
+            set
+            {
+                _start = value; //new DateTime(value.Year, value.Month, value.Day, 23, 59, 59);
+            }
+        }
+
+        public DateTime EndDate
+        {
+            get
+            {
+                return _end;
+            }
+            set
+            {
+                _end = new DateTime(value.Year, value.Month, value.Day, 23, 59, 59);
+            }
+        }
+    }
+
+    public class TransactionFilter : Period
     {
         public Guid ProfileId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+    }
 
+    public class CashBookFilter : Period
+    {
+        public Guid AccountId { get; set; }
     }
 }
-
-

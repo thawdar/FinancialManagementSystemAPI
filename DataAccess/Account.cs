@@ -62,5 +62,15 @@ namespace DataAccess
 
             return balance;
         }
+
+        public async static Task<IEnumerable<m.AccountWithBalance>> GetAccountWithBalance(Guid ProfileId)
+        {
+            using (var db = DbAccess.ConnectionFactory())
+            {
+                return await db.QueryAsync<m.AccountWithBalance>("SELECT AccountId, AccountName, AccountType, ProfileId, dbo.GetAccountBalance(AccountId) AS Balance FROM dbo.Account WHERE (ProfileId = @ProfileId)",
+                     new { ProfileId = ProfileId });
+            }
+        }
+
     }
 }

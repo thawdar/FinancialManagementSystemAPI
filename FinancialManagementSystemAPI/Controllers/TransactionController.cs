@@ -29,7 +29,7 @@ namespace FinancialManagementSystemAPI.Controllers
         public async Task<IEnumerable<m.DailyTransaction>> GetByProfileIdAndPeriod([FromBody] m.TransactionFilter filter)
         {
             return await d.Transaction.GetByProfileId(filter.ProfileId, filter.StartDate, filter.EndDate);
-        }
+        }        
 
         [HttpPost("TotalCategory/ProfileIdAndPeriod")]
         public async Task<IEnumerable<m.CategoryTotal>> GetTotalCategoryByProfileIdAndPeriod([FromBody] m.TransactionFilter filter)

@@ -48,6 +48,41 @@ namespace DataAccess
             }
         }
 
+        public async static Task<IEnumerable<m.DailyTransaction>> GetCashBook(m.CashBookFilter filter)
+        {
+            IEnumerable<m.Category> categories = await Category.Get();
+            List<m.DailyTransaction> dailyTransactions = new List<m.DailyTransaction>();
+
+            using (var db = DbAccess.ConnectionFactory())
+            {
+                decimal? openingBalance = await db.QueryFirstOrDefaultAsync<decimal?>("SELECT dbo.GetAccountBalanceByDate(@AccountId, @Date)", new { AccountId = filter.AccountId, Date = filter.StartDate });                
+
+                //fetch opening balance
+                dailyTransactions.Add(new m.DailyTransaction()
+                {
+                    Particular = "Opening balance",
+                    Amount = openingBalance == null ? 0 : (decimal)openingBalance
+                });
+
+                //get transactions
+                dailyTransactions.AddRange((await db.QueryAsync<m.DailyTransaction>(DbAccess.SelectAll<m.DailyTransaction>() + " WHERE (AccountId = @AccountId) AND (TransactionDate BETWEEN @StartDate AND @EndDate) ORDER BY TransactionDate ", filter)).ToArray());
+                foreach (var t in dailyTransactions)
+                {
+                    t.Category = categories.FirstOrDefault(c => c.CategoryId == t.CategoryId);
+                    if (t.Category?.CategoryType == "Expense") t.Amount = 0 - t.Amount;
+                }
+
+                //calculate closing balance
+                decimal closingBalance = dailyTransactions.Sum(t => t.Amount);
+                dailyTransactions.Add(new m.DailyTransaction() {
+                    Particular = "Closing balance",
+                    Amount = closingBalance
+                });
+
+                return dailyTransactions;
+            }
+        }
+
         public async static Task<IEnumerable<m.DailyTransaction>> GetByProfileId(Guid ProfileId, DateTime _start, DateTime _end)
         {
             IEnumerable<m.Category> categories = await Category.Get();

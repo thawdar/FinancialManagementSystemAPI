@@ -53,7 +53,7 @@ namespace UnitTesting
         {
             try
             {                
-                m.Profile obj = d.Profile.Get(profile.ProfileId).Result;
+                m.Profile obj = d.Profile.Get((Guid)profile.ProfileId).Result;
                 IEnumerable<m.Profile> profiles = d.Profile.Get().Result;
 
                 Assert.IsTrue(true);
@@ -69,7 +69,7 @@ namespace UnitTesting
         {
             try
             {                
-                d.Profile.Delete(profile.ProfileId).Wait();
+                d.Profile.Delete((Guid)profile.ProfileId).Wait();
 
                 Assert.IsTrue(true);
             }
